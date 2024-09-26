@@ -1,11 +1,14 @@
 import express from "express";
-import * as bodyParser from "body-parser";
+import cors from 'cors';
 import { PORT } from "./config/global";
 import { routes } from "./routes";
+import { getIpAddress } from "./utils";
 
 const app = express();
-
-app.use(bodyParser.urlencoded({ extended: false }));
+// 跨域
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 routes.forEach((route) => {
   const { method, path, middleware, handler } = route
@@ -13,5 +16,6 @@ routes.forEach((route) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`Express with Typescript! http://localhost:${PORT}`);
+  console.log(`localhost! http://127.0.0.1:${PORT}`);
+  console.log(`Ipv4! http://${getIpAddress()}:${PORT}`);
 });
